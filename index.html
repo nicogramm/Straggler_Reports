@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Lab Test Processor</title>
+    <title>Straggler Reports - Bureau Veritas</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00049E 0%, #333333 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -29,7 +29,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00049E 0%, #333333 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -45,10 +45,17 @@
             opacity: 0.9;
         }
 
+        .bv-logo {
+            font-weight: bold;
+            color: #BFC1C0;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
         .drop-zone {
             margin: 40px;
             padding: 60px;
-            border: 3px dashed #667eea;
+            border: 3px dashed #00049E;
             border-radius: 10px;
             text-align: center;
             background: #f8f9ff;
@@ -58,27 +65,28 @@
 
         .drop-zone:hover {
             background: #eef1ff;
-            border-color: #764ba2;
+            border-color: #333333;
         }
 
         .drop-zone.dragover {
             background: #e0e7ff;
-            border-color: #4f46e5;
+            border-color: #00049E;
             transform: scale(1.02);
         }
 
         .drop-zone-icon {
             font-size: 4em;
             margin-bottom: 20px;
+            color: #00049E;
         }
 
         .drop-zone h2 {
-            color: #667eea;
+            color: #00049E;
             margin-bottom: 10px;
         }
 
         .drop-zone p {
-            color: #666;
+            color: #706F6F;
         }
 
         .processing {
@@ -88,8 +96,8 @@
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border: 4px solid #BFC1C0;
+            border-top: 4px solid #00049E;
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -108,7 +116,7 @@
         }
 
         .success-message {
-            background: #10b981;
+            background: #00049E;
             color: white;
             padding: 20px;
             border-radius: 10px;
@@ -129,17 +137,19 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00049E 0%, #333333 100%);
             color: white;
             padding: 20px;
             border-radius: 10px;
             text-align: center;
+            border: 2px solid #BFC1C0;
         }
 
         .stat-card h4 {
             font-size: 0.9em;
             opacity: 0.9;
             margin-bottom: 10px;
+            color: #BFC1C0;
         }
 
         .stat-card .number {
@@ -148,7 +158,7 @@
         }
 
         .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00049E 0%, #333333 100%);
             color: white;
             border: none;
             padding: 15px 40px;
@@ -162,7 +172,7 @@
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 20px rgba(0, 4, 158, 0.4);
         }
 
         .btn:active {
@@ -172,38 +182,44 @@
         input[type="file"] {
             display: none;
         }
+
+        .processing-text {
+            color: #333333;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Excel Lab Test Processor</h1>
-            <p>I-drag and drop ang Excel file o mag-click para mag-upload</p>
+            <h1>📊 Straggler Reports</h1>
+            <p>Drag and drop your Excel file or click to upload</p>
+            <div class="bv-logo">BUREAU VERITAS</div>
         </div>
 
         <div class="drop-zone" id="dropZone">
             <div class="drop-zone-icon">📁</div>
-            <h2>I-drop ang Excel file dito</h2>
-            <p>o mag-click para pumili ng file</p>
+            <h2>Drop Excel File Here</h2>
+            <p>or click to browse</p>
             <input type="file" id="fileInput" accept=".xlsx,.xls">
         </div>
 
         <div class="processing" id="processing">
             <div class="spinner"></div>
-            <h3>Pinoproseso ang file...</h3>
-            <p>Sandali lang...</p>
+            <h3 class="processing-text">Processing file...</h3>
+            <p style="color: #706F6F;">Please wait...</p>
         </div>
 
         <div class="results" id="results">
             <div class="success-message">
-                <h3>✅ Matagumpay na na-process!</h3>
-                <p>Ang file ay automatic na na-download</p>
+                <h3>✅ Successfully Processed!</h3>
+                <p>File has been automatically downloaded</p>
             </div>
 
             <div class="stats" id="stats"></div>
 
             <div style="text-align: center; margin-top: 30px;">
-                <button class="btn" onclick="location.reload()">Mag-process ng Isa Pang File</button>
+                <button class="btn" onclick="location.reload()">Process Another File</button>
             </div>
         </div>
     </div>
@@ -245,7 +261,7 @@
 
         function handleFile(file) {
             if (!file.name.match(/\.(xlsx|xls)$/)) {
-                alert('Mangyaring mag-upload ng Excel file (.xlsx o .xls)');
+                alert('Please upload an Excel file (.xlsx or .xls)');
                 return;
             }
 
@@ -257,7 +273,7 @@
                 try {
                     processExcel(e.target.result);
                 } catch (error) {
-                    alert('Error sa pag-process ng file: ' + error.message);
+                    alert('Error processing file: ' + error.message);
                     location.reload();
                 }
             };
@@ -280,7 +296,10 @@
             // Create new workbook
             const newWorkbook = XLSX.utils.book_new();
 
-            // 1. Filter STATUS = "P"
+            // 1. Add original untouched sheet first
+            XLSX.utils.book_append_sheet(newWorkbook, firstSheet, 'Original Data');
+
+            // 2. Filter STATUS = "P"
             const statusP = validData.filter(row => row.STATUS === 'P');
             if (statusP.length > 0) {
                 const ws = XLSX.utils.json_to_sheet(statusP);
@@ -288,7 +307,7 @@
                 XLSX.utils.book_append_sheet(newWorkbook, ws, 'STATUS_P');
             }
 
-            // 2. Extract all unique tests from TESTS column
+            // 3. Extract all unique tests from TESTS column
             const testSet = new Set();
             validData.forEach(row => {
                 if (row.TESTS && typeof row.TESTS === 'string') {
@@ -297,13 +316,20 @@
                 }
             });
 
-            // 3. Create sheet for each test
+            // 4. Create separate sheet for EACH individual test
+            // Key change: Each row appears in MULTIPLE sheets if it has multiple tests
             const testStats = {};
             testSet.forEach(testName => {
                 const testRows = validData.filter(row => {
                     if (!row.TESTS || typeof row.TESTS !== 'string') return false;
                     const tests = row.TESTS.split(',').map(t => t.trim());
                     return tests.includes(testName);
+                }).map(row => {
+                    // Create a copy of the row with ONLY this specific test in TESTS column
+                    return {
+                        ...row,
+                        TESTS: testName  // Replace comma-separated list with single test
+                    };
                 });
 
                 if (testRows.length > 0) {
@@ -319,7 +345,7 @@
             });
 
             // Download the file
-            XLSX.writeFile(newWorkbook, 'Processed_Lab_Tests.xlsx');
+            XLSX.writeFile(newWorkbook, 'Straggler_Report_Processed.xlsx');
 
             // Show results
             processing.style.display = 'none';
@@ -352,7 +378,7 @@
                 {},
                 { A: '═══════════════ SUMMARY ═══════════════' },
                 {},
-                { A: 'KABUUANG BILANG NG ROWS:', B: totalRows },
+                { A: 'TOTAL ROWS:', B: totalRows },
                 {},
                 { A: '--- STATUS BREAKDOWN ---' }
             ];
