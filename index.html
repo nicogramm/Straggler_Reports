@@ -14,95 +14,232 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #00049E 0%, #333333 100%);
+            background: linear-gradient(135deg, #00049E 0%, #1a1a4e 50%, #000033 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(191, 193, 192, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 4, 158, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(191, 193, 192, 0.08) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 
+                0 25px 70px rgba(0, 4, 158, 0.4),
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
             overflow: hidden;
+            position: relative;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header {
-            background: linear-gradient(135deg, #00049E 0%, #333333 100%);
+            background: linear-gradient(135deg, #00049E 0%, #000066 100%);
             color: white;
-            padding: 30px;
+            padding: 40px 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(191, 193, 192, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+            font-size: 1.2em;
+            opacity: 0.95;
+            color: #BFC1C0;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .bv-logo {
-            font-weight: bold;
+            font-weight: 700;
             color: #BFC1C0;
-            font-size: 0.9em;
-            margin-top: 10px;
+            font-size: 0.95em;
+            margin-top: 15px;
+            letter-spacing: 3px;
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .drop-zone {
-            margin: 40px;
-            padding: 60px;
-            border: 3px dashed #00049E;
-            border-radius: 10px;
+            margin: 50px;
+            padding: 70px;
+            border: 3px dashed #BFC1C0;
+            border-radius: 15px;
             text-align: center;
-            background: #f8f9ff;
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drop-zone::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 4, 158, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .drop-zone:hover::before {
+            width: 500px;
+            height: 500px;
         }
 
         .drop-zone:hover {
-            background: #eef1ff;
-            border-color: #333333;
+            background: linear-gradient(135deg, #eef1ff 0%, #f8f9ff 100%);
+            border-color: #00049E;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 4, 158, 0.2);
         }
 
         .drop-zone.dragover {
-            background: #e0e7ff;
+            background: linear-gradient(135deg, #e0e7ff 0%, #eef1ff 100%);
             border-color: #00049E;
+            border-width: 4px;
             transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 4, 158, 0.3);
         }
 
         .drop-zone-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
+            font-size: 5em;
+            margin-bottom: 25px;
             color: #00049E;
+            position: relative;
+            z-index: 1;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .drop-zone h2 {
             color: #00049E;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
         }
 
         .drop-zone p {
             color: #706F6F;
+            font-size: 1.1em;
+            position: relative;
+            z-index: 1;
         }
 
         .processing {
             display: none;
             text-align: center;
-            padding: 40px;
+            padding: 60px 40px;
         }
 
         .spinner {
-            border: 4px solid #BFC1C0;
-            border-top: 4px solid #00049E;
+            border: 5px solid #BFC1C0;
+            border-top: 5px solid #00049E;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            margin: 0 auto 30px;
+            box-shadow: 0 5px 20px rgba(0, 4, 158, 0.3);
         }
 
         @keyframes spin {
@@ -112,71 +249,179 @@
 
         .results {
             display: none;
-            padding: 40px;
+            padding: 50px;
+            animation: fadeIn 0.6s ease-out;
         }
 
         .success-message {
-            background: #00049E;
+            background: linear-gradient(135deg, #00049E 0%, #000066 100%);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 4, 158, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-message::before {
+            content: '✓';
+            position: absolute;
+            font-size: 15em;
+            color: rgba(191, 193, 192, 0.1);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: checkPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes checkPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.15; }
         }
 
         .success-message h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
+            font-size: 1.8em;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-message p {
+            position: relative;
+            z-index: 1;
+            color: #BFC1C0;
         }
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #00049E 0%, #333333 100%);
+            background: linear-gradient(135deg, #00049E 0%, #000066 100%);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 30px 25px;
+            border-radius: 15px;
             text-align: center;
-            border: 2px solid #BFC1C0;
+            border: 2px solid rgba(191, 193, 192, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: scaleIn 0.5s ease-out backwards;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        .stat-card:nth-child(5) { animation-delay: 0.5s; }
+        .stat-card:nth-child(6) { animation-delay: 0.6s; }
+        .stat-card:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(191, 193, 192, 0.15) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 4, 158, 0.4);
+            border-color: #BFC1C0;
+        }
+
+        .stat-card:hover::before {
+            transform: rotate(45deg) translate(50%, 50%);
         }
 
         .stat-card h4 {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-bottom: 10px;
+            font-size: 0.95em;
+            opacity: 0.95;
+            margin-bottom: 15px;
             color: #BFC1C0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
         }
 
         .stat-card .number {
-            font-size: 2.5em;
-            font-weight: bold;
+            font-size: 3em;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .btn {
-            background: linear-gradient(135deg, #00049E 0%, #333333 100%);
+            background: linear-gradient(135deg, #00049E 0%, #000066 100%);
             color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1em;
-            border-radius: 8px;
+            border: 2px solid transparent;
+            padding: 18px 50px;
+            font-size: 1.15em;
+            font-weight: 600;
+            border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-block;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 4, 158, 0.3);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 4, 158, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 4, 158, 0.5);
+            border-color: #BFC1C0;
         }
 
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
         }
 
         input[type="file"] {
@@ -184,17 +429,34 @@
         }
 
         .processing-text {
-            color: #333333;
-            font-size: 1.2em;
+            color: #00049E;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .processing p {
+            color: #706F6F;
+            font-size: 1.1em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .drop-zone { margin: 30px; padding: 50px 30px; }
+            .results { padding: 30px; }
+            .stats { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Straggler Reports</h1>
-            <p>Drag and drop your Excel file or click to upload</p>
-            <div class="bv-logo">BUREAU VERITAS</div>
+            <div class="header-content">
+                <h1>📊 Straggler Reports</h1>
+                <p>Drag and drop your Excel file or click to upload</p>
+                <div class="bv-logo">BUREAU VERITAS</div>
+            </div>
         </div>
 
         <div class="drop-zone" id="dropZone">
@@ -207,7 +469,7 @@
         <div class="processing" id="processing">
             <div class="spinner"></div>
             <h3 class="processing-text">Processing file...</h3>
-            <p style="color: #706F6F;">Please wait...</p>
+            <p>Please wait while we analyze your data</p>
         </div>
 
         <div class="results" id="results">
@@ -218,8 +480,10 @@
 
             <div class="stats" id="stats"></div>
 
-            <div style="text-align: center; margin-top: 30px;">
-                <button class="btn" onclick="location.reload()">Process Another File</button>
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="location.reload()">
+                    <span>Process Another File</span>
+                </button>
             </div>
         </div>
     </div>
@@ -317,7 +581,6 @@
             });
 
             // 4. Create separate sheet for EACH individual test
-            // Key change: Each row appears in MULTIPLE sheets if it has multiple tests
             const testStats = {};
             testSet.forEach(testName => {
                 const testRows = validData.filter(row => {
@@ -325,10 +588,9 @@
                     const tests = row.TESTS.split(',').map(t => t.trim());
                     return tests.includes(testName);
                 }).map(row => {
-                    // Create a copy of the row with ONLY this specific test in TESTS column
                     return {
                         ...row,
-                        TESTS: testName  // Replace comma-separated list with single test
+                        TESTS: testName
                     };
                 });
 
@@ -336,7 +598,6 @@
                     const ws = XLSX.utils.json_to_sheet(testRows);
                     addSummary(ws, testRows, testRows.length + 2);
                     
-                    // Sanitize sheet name (max 31 chars, no special chars)
                     let sheetName = testName.substring(0, 31).replace(/[:\\\/\?\*\[\]]/g, '_');
                     XLSX.utils.book_append_sheet(newWorkbook, ws, sheetName);
                     
@@ -356,24 +617,20 @@
         }
 
         function addSummary(worksheet, data, startRow) {
-            // Count total rows
             const totalRows = data.length;
             
-            // Count by STATUS
             const statusCount = {};
             data.forEach(row => {
                 const status = row.STATUS || 'Unknown';
                 statusCount[status] = (statusCount[status] || 0) + 1;
             });
 
-            // Count by CUSTOMER
             const customerCount = {};
             data.forEach(row => {
                 const customer = row.CUSTOMER || 'Unknown';
                 customerCount[customer] = (customerCount[customer] || 0) + 1;
             });
 
-            // Add summary section
             const summaryData = [
                 {},
                 { A: '═══════════════ SUMMARY ═══════════════' },
@@ -398,7 +655,6 @@
                 summaryData.push({ A: `  ${customer}:`, B: count });
             });
 
-            // Append summary to worksheet
             XLSX.utils.sheet_add_json(worksheet, summaryData, {
                 skipHeader: true,
                 origin: startRow
@@ -413,10 +669,9 @@
                 </div>
             `;
 
-            // Sort tests by count (descending)
             const sortedTests = Object.entries(testStats)
                 .sort((a, b) => b[1] - a[1])
-                .slice(0, 6); // Show top 6 tests
+                .slice(0, 6);
 
             sortedTests.forEach(([testName, count]) => {
                 html += `
